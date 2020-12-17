@@ -1,0 +1,1 @@
+import "./PersonDetails.css";
