@@ -7,6 +7,7 @@ export default class PersonDetails extends Component {
         <img
           className="person-image"
           src="https://starwars-visualguide.com/assets/img/characters/3.jpg"
+          alt="фото персонажа"
         />
 
         <div className="card-body">
