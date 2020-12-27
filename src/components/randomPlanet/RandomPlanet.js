@@ -11,10 +11,16 @@ export default class RandomPlanet extends Component {
     loading: true,
     error: false,
   };
-
-  constructor() {
-    super();
+  // когда создан дом
+  componentDidMount() {
     this.updatePlanet();
+    this.interval = setInterval(() => {
+      this.updatePlanet();
+    }, 1500);
+  }
+  // компонент будет удален
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
   onError = (err) => {
     this.setState({ error: true, loading: false });
@@ -24,13 +30,13 @@ export default class RandomPlanet extends Component {
     this.setState({ planet, loading: false });
   };
 
-  updatePlanet() {
-    const id = Math.floor(Math.random() * 25 + 2);
+  updatePlanet = () => {
+    const id = Math.floor(Math.random() * 20 + 1);
     this.swapiService
       .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
-  }
+  };
 
   render() {
     const { planet, loading, error } = this.state;
