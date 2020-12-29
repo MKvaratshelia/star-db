@@ -5,8 +5,10 @@ import ItemList from "../components/itemList/ItemList";
 import PersonDetails from "../components/personDetails/PersonDetails";
 import "./App.css";
 import PeoplePage from "./peoplePage/PeoplePage";
+import SwapiService from "../services";
 
 class App extends Component {
+  swapiService = new SwapiService();
   state = {
     showRandomPlanet: true,
   };
@@ -35,18 +37,31 @@ class App extends Component {
         >
           Toggle Random Planet
         </button>
+        <PeoplePage />
 
-        {/* <div className="row mb2">
+        <div className="row mb-2 mt-2">
           <div className="col-md-6">
-            <ItemList onItemSelected={this.onPersonSelected} />
+            <ItemList
+              getData={this.swapiService.getAllPlanets}
+              onItemSelected={this.onPersonSelected}
+            />
           </div>
           <div className="col-md-6">
             <PersonDetails personId={this.state.selectedPerson} />
           </div>
-        </div> */}
-        <PeoplePage />
-        <PeoplePage />
-        <PeoplePage />
+        </div>
+
+        <div className="row mb-2 mt-2">
+          <div className="col-md-6">
+            <ItemList
+              getData={this.swapiService.getAllStarships}
+              onItemSelected={this.onPersonSelected}
+            />
+          </div>
+          <div className="col-md-6">
+            <PersonDetails personId={this.state.selectedPerson} />
+          </div>
+        </div>
       </div>
     );
   }
