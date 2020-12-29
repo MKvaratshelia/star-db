@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SwapiService from "../../services";
+import ErrorButton from "../errorButton/ErrorButton";
 import Loader from "../loader/Loader";
 import "./PersonDetails.css";
 export default class PersonDetails extends Component {
@@ -33,7 +34,6 @@ export default class PersonDetails extends Component {
     });
   }
   render() {
-    console.log(this.state.loading);
     const { loading, person } = this.state;
     if (!this.state.person) {
       return <span>Select a person from list</span>;
@@ -76,6 +76,7 @@ const ContentView = ({ person }) => {
             <span>{eyeColor}</span>
           </li>
         </ul>
+        <ErrorButton />
       </div>
     </>
   );
