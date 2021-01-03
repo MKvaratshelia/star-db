@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import SwapiService from "../../services";
 import ErrorButton from "../errorButton/ErrorButton";
 import Loader from "../loader/Loader";
-import "./PersonDetails.css";
-export default class PersonDetails extends Component {
+import "./ItemDetails.css";
+export default class ItemDetails extends Component {
   swapiService = new SwapiService();
   state = {
-    person: null,
+    item: null,
     loading: false,
+    image: null,
   };
 
   componentDidMount() {
@@ -15,32 +16,35 @@ export default class PersonDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.personId !== prevProps.personId) {
+    if (this.props.itemId !== prevProps.itemId) {
       this.updatePerson();
     }
   }
 
   updatePerson() {
-    const { personId } = this.props;
-    if (!personId) {
+    const { itemId, getData, getImageUrl } = this.props;
+    if (!itemId) {
       return;
     }
     this.setState({ loading: true });
-    this.swapiService.getPerson(personId).then((person) => {
+    getData(itemId).then((item) => {
       this.setState({
-        person,
+        item,
         loading: false,
+        image: getImageUrl(item),
       });
     });
   }
   render() {
-    const { loading, person } = this.state;
-    if (!this.state.person) {
+    const { item, loading } = this.state;
+    if (!item) {
       return <span>Select a person from list</span>;
     }
 
     const loader = loading ? <Loader /> : null;
-    const content = !loading ? <ContentView person={person} /> : null;
+    const content = !loading ? (
+      <ContentView item={item} image={this.state.image} />
+    ) : null;
     return (
       <div className="person-details card">
         {loader}
@@ -50,15 +54,12 @@ export default class PersonDetails extends Component {
   }
 }
 
-const ContentView = ({ person }) => {
-  const { id, name, gender, birthYear, eyeColor } = person;
+const ContentView = ({ item, image }) => {
+  const { name, gender, birthYear, eyeColor } = item;
+
   return (
     <>
-      <img
-        className="person-image"
-        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-        alt="фото персонажа"
-      />
+      <img className="person-image" src={image} alt="фото персонажа" />
 
       <div className="card-body">
         <h4>{name}</h4>
