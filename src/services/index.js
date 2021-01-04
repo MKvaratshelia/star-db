@@ -22,7 +22,6 @@ export default class SwapiService {
 
   getAllPlanets = async () => {
     const res = await this.getResource(`/planets/`);
-    console.log(res.results);
     return res.results.map(this._transformPlanet);
   };
 
@@ -33,7 +32,6 @@ export default class SwapiService {
 
   getAllStarships = async () => {
     const res = await this.getResource(`/starships/`);
-    console.log(res.results);
     return res.results.map(this._transformStarShip);
   };
 
@@ -72,8 +70,8 @@ export default class SwapiService {
       name: starship.name,
       model: starship.model,
       manufacturer: starship.manufacturer,
-      costInCredits: starship.costInCredits,
-      length: starship.lengts,
+      costInCredits: starship.cost_in_credits,
+      length: starship.length,
       crew: starship.crew,
       passengers: starship.passengers,
       cargoCapacity: starship.cargoCapacity,
