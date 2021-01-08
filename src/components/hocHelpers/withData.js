@@ -19,6 +19,7 @@ const withData = (View, getData) => {
 
     render() {
       const { data } = this.state;
+      console.log(data);
 
       if (!data) {
         return <Loader />;

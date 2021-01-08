@@ -7,6 +7,21 @@ import "./App.css";
 import Row from "./row/Row";
 import ItemDetails, { Record } from "./itemDetails/ItemDetails";
 
+import { SwapiServiceProvider } from "./swapiServiceContext/swapiServiceContext";
+
+import {
+  PersonList,
+  StarshipLIst,
+  PLanetList,
+  PersonDetails,
+  StarshipDetails,
+  PLanetDetails,
+  StarshipList,
+  PlanetList,
+  PlanetDetails,
+} from "./sw-components/index";
+import ErrorBoundry from "./errorBoundry/ErrorBoundry";
+
 class App extends Component {
   swapiService = new SwapiService();
   state = {
@@ -51,9 +66,18 @@ class App extends Component {
       </ItemDetails>
     );
     return (
-      <div>
-        <Header />
-        {/* {planet}
+      <ErrorBoundry>
+        <SwapiServiceProvider value={this.swapiService}>
+          <div>
+            <Header />
+            <PersonDetails itemId={11} />
+            <PlanetDetails itemId={5} />
+            <StarshipDetails itemId={9} />
+
+            <PersonList></PersonList>
+            <StarshipList></StarshipList>
+            <PlanetList></PlanetList>
+            {/* {planet}
         <button
           className="toggle-planet btn btn-warning btn-lg"
           onClick={this.toggleRandomPlanet}
@@ -61,9 +85,11 @@ class App extends Component {
           Toggle Random Planet
         </button>
         <PeoplePage /> */}
-        <PeoplePage />
-        <Row left={personDetails} right={starshipDetails} />
-      </div>
+            {/* <PeoplePage />
+        <Row left={personDetails} right={starshipDetails} /> */}
+          </div>
+        </SwapiServiceProvider>
+      </ErrorBoundry>
     );
   }
 }
