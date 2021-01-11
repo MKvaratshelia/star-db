@@ -3,14 +3,14 @@ import React, { Component } from "react";
 import Loader from "../loader/Loader";
 // import ErrorIndicator from "../errorIndicator/ErrorIndicator";
 
-const withData = (View, getData) => {
+const withData = (View) => {
   return class extends Component {
     state = {
       data: null,
     };
 
     componentDidMount() {
-      getData().then((data) => {
+      this.props.getData().then((data) => {
         this.setState({
           data,
         });
@@ -19,7 +19,6 @@ const withData = (View, getData) => {
 
     render() {
       const { data } = this.state;
-      console.log(data);
 
       if (!data) {
         return <Loader />;

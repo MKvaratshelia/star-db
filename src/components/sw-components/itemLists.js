@@ -1,10 +1,7 @@
 import React from "react";
 import ItemList from "../itemList/ItemList";
-import SwapiService from "../../services/index";
 import withData from "../hocHelpers/withData";
-
-const swapiService = new SwapiService();
-const { getAllPeople, getAllStarships, getAllPlanets } = swapiService;
+import WithSwapiService from "../hocHelpers/WithSwapiService";
 
 const withChildFunction = (Wrapped, fn) => {
   return (props) => {
@@ -19,19 +16,36 @@ const renderModelAndName = ({ model, name }) => (
   </span>
 );
 
-const PersonList = withData(
-  withChildFunction(ItemList, renderName),
-  getAllPeople
+const mapPersonMethodsToProps = (swapiService) => {
+  return {
+    getData: swapiService.getAllPeople,
+  };
+};
+const mapPlanetMethodsToProps = (swapiService) => {
+  return {
+    getData: swapiService.getAllPlanets,
+  };
+};
+const mapStarshipMethodsToProps = (swapiService) => {
+  return {
+    getData: swapiService.getAllStarships,
+  };
+};
+
+// оборачиваем в компонент высшего порядка который хранит контекст
+const PersonList = WithSwapiService(
+  withData(withChildFunction(ItemList, renderName)),
+  mapPersonMethodsToProps
 );
 
-const PlanetList = withData(
-  withChildFunction(ItemList, renderName),
-  getAllPlanets
+const PlanetList = WithSwapiService(
+  withData(withChildFunction(ItemList, renderName)),
+  mapPlanetMethodsToProps
 );
 
-const StarshipList = withData(
-  withChildFunction(ItemList, renderModelAndName),
-  getAllStarships
+const StarshipList = WithSwapiService(
+  withData(withChildFunction(ItemList, renderModelAndName)),
+  mapStarshipMethodsToProps
 );
 
 export { PersonList, PlanetList, StarshipList };
