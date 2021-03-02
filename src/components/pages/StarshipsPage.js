@@ -1,24 +1,16 @@
-import React, { Component } from "react";
-import { StarshipDetails, StarshipList } from "../sw-components/index";
-import Row from "../row/Row";
+import React from "react";
+import { StarshipList } from "../sw-components/index";
+import { withRouter } from "react-router-dom";
 
-export default class StarshipsPage extends Component {
-  state = {
-    selectedItem: null,
-  };
-  onItemSelected = (selectedItem) => {
-    this.setState({
-      selectedItem,
-    });
-  };
+const StarshipsPage = ({ history }) => {
+  return (
+    <StarshipList
+      onItemSelected={(itemId) => {
+        // пересылаем пользователя на страницу c id
+        history.push(itemId);
+      }}
+    />
+  );
+};
 
-  render() {
-    const { selectedItem } = this.state;
-    return (
-      <Row
-        left={<StarshipList onItemSelected={this.onItemSelected} />}
-        right={<StarshipDetails itemId={selectedItem} />}
-      />
-    );
-  }
-}
+export default withRouter(StarshipsPage); // обернули в компонент высшего порядка, чтобы получить доступ к history, match, location

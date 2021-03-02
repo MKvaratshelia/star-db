@@ -22,8 +22,8 @@ const ItemList = (props) => {
   const items = renderItems(data);
   return <ul className="item-list list-group">{items}</ul>;
 };
-
-// const { getAllPeople } = new SwapiService();
-// export default withData(ItemList, getAllPeople);
+ItemList.defaultProps = {
+  onItemSelected: () => {},
+};
 
 export default ItemList;

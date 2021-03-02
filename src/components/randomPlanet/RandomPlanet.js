@@ -1,22 +1,30 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import SwapiService from "../../services/index";
 import Loader from "../loader/Loader";
 import ErrorIndicator from "../errorIndicator/ErrorIndicator";
 import "./RandomPlanet.css";
-
 export default class RandomPlanet extends Component {
+  static defaultProps = {
+    // задаем интервал по умолчанию, так же может прийти как пропс
+    updateInterval: 10000,
+  };
+  // библиотека для типизации
+  static propTypes = {
+    updateInterval: PropTypes.number,
+  };
+
   swapiService = new SwapiService();
   state = {
     planet: {},
     loading: true,
     error: false,
   };
-  // когда создан дом
+
   componentDidMount() {
+    const { updateInterval } = this.props;
     this.updatePlanet();
-    this.interval = setInterval(() => {
-      this.updatePlanet();
-    }, 1500);
+    this.interval = setInterval(this.updatePlanet, updateInterval);
   }
   // компонент будет удален
   componentWillUnmount() {
